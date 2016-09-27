@@ -1,9 +1,18 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {
+.controller('DashCtrl', function($scope, $http, $cordovaDevice) {
   $scope.scan = function () {
-    WifiWizard.getCurrentSSID(ssidHandler, fail);
-    WifiWizard.getCurrentBSSID(bssidHandler, fail);
+    // WifiWizard.getCurrentSSID(ssidHandler, fail);
+    // WifiWizard.getCurrentBSSID(bssidHandler, fail);
+    $scope.uuid = $cordovaDevice.getUUID();
+
+    var mac = '1223344556';
+    $http.post('http://test.app/api/channel/join', {
+      address: $scope.bssid,
+      uuid: $scope.uuid,
+    }).then(function(data) {
+      $scope.data = data.data.status;
+    });
   }
 
   function ssidHandler(data) {
