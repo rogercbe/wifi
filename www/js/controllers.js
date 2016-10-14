@@ -1,17 +1,19 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $http, $cordovaDevice) {
+.controller('DashCtrl', function($scope, $http, $cordovaDevice, $q) {
   $scope.scan = function () {
-    // WifiWizard.getCurrentSSID(ssidHandler, fail);
-    // WifiWizard.getCurrentBSSID(bssidHandler, fail);
-    $scope.uuid = $cordovaDevice.getUUID();
 
-    var mac = '1223344556';
-    $http.post('http://test.app/api/channel/join', {
-      address: $scope.bssid,
-      uuid: $scope.uuid,
-    }).then(function(data) {
-      $scope.data = data.data.status;
+    $q.when(WifiWizard.getCurrentSSID(ssidHandler, fail)).then(function() {
+      $q.when(WifiWizard.getCurrentBSSID(bssidHandler, fail)).then(function() {
+        $scope.uuid = $cordovaDevice.getUUID();
+
+        $http.post('https://infinite-sands-50357.herokuapp.com/api/channel/join', {
+          address: $scope.bssid,
+          uuid: $scope.uuid,
+        }).then(function(data) {
+          $scope.data = data.data.status;
+        });
+      });
     });
   }
 
@@ -26,8 +28,14 @@ angular.module('starter.controllers', [])
   }
 
   function fail(error) {
+    $scope.uuid = $cordovaDevice.getUUID();
     console.log(error);
     $scope.data = error;
+    $http.post('https://infinite-sands-50357.herokuapp.com/api/channel/leave', {
+          uuid: $scope.uuid,
+        }).then(function(data) {
+          $scope.data = data.data.status;
+        });
   }
 })
 
