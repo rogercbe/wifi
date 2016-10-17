@@ -15,8 +15,10 @@
     </p>
     
     <button class="button button-positive" ng-click="scan()">Scan</button>
-    <pre>{{ ssid }}</pre>
-    <pre>{{ bssid }}</pre>
-    <pre>{{ data }}</pre>
+    <button class="button button-positive" ng-click="token()">Token</button>
+    Token: <pre>{{ token_msg }}</pre>
+    ssid: <pre>{{ ssid }}</pre>
+    bssid: <pre>{{ bssid }}</pre>
+    data: <pre>{{ data }}</pre>
   </ion-content>
 </ion-view>

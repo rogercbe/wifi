@@ -1,6 +1,16 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $http, $cordovaDevice, $q) {
+.controller('DashCtrl', function($scope, $http, $cordovaDevice, $q, $ionicPush) {
+
+  $scope.token = function() {
+    $ionicPush.register().then(function(t) {
+      return $ionicPush.saveToken(t);
+    }).then(function(t) {
+      console.log('Token saved:', t.token);
+      $scope.token_msg = t.token;
+    });
+  }
+
   $scope.scan = function () {
 
     $q.when(WifiWizard.getCurrentSSID(ssidHandler, fail)).then(function() {
