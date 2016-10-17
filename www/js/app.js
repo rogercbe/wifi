@@ -29,7 +29,7 @@ angular.module('starter', ['ionic','ionic.cloud','ionic.service.core', 'starter.
       "app_id": "ea9afcda"
     },
     "push": {
-      "sender_id": "388523519877",
+      "sender_id": "143475407808",
       "pluginConfig": {
         "ios": {
           "badge": true,
